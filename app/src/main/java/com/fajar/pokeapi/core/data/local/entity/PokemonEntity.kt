@@ -12,28 +12,28 @@ data class PokemonEntity(
 
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: Int,
+    val id: Int?,
 
-    @ColumnInfo(name = "names")
-    val name: String,
+    @ColumnInfo(name = "name")
+    val name: String?,
 
     @ColumnInfo(name = "types")
-    val types: String,
+    val types: String?,
 
     @ColumnInfo(name = "height")
-    val height: Int,
+    val height: Int?,
 
     @ColumnInfo(name = "weight")
-    val weight: Int,
+    val weight: Int?,
 
     @ColumnInfo(name = "abilities")
-    val abilities: String,
+    val abilities: String?,
 
     @ColumnInfo(name = "stats")
-    val stats: String,
+    val stats: String?,
 
     @ColumnInfo(name = "sprites")
-    val sprites: String,
+    val sprites: String?,
 
     @ColumnInfo(name = "isFavorite")
     var isFavorite: Boolean = false,

@@ -12,8 +12,6 @@ import com.fajar.pokeapi.core.data.remote.response.PokemonDetailResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
 import com.fajar.pokeapi.core.utils.AppExecutors
 import com.fajar.pokeapi.core.utils.DataMapper
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 
 class PokemonRepository private constructor(
     private val remoteDataSource: RemoteDataSource,

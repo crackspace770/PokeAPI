@@ -8,10 +8,6 @@ import com.fajar.pokeapi.core.data.remote.network.ApiService
 import com.fajar.pokeapi.core.data.remote.response.ListPokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonDetailResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,13 +47,13 @@ class RemoteDataSource private constructor(private val apiService: ApiService) {
         return resultData
     }
 
-    fun getPokemonDetail(name: String): LiveData<ApiResponse<PokemonDetailResponse>> {
+    fun getPokemonDetail(name: String?): LiveData<ApiResponse<PokemonDetailResponse>> {
         val resultData = MutableLiveData<ApiResponse<PokemonDetailResponse>>()
 
         //get data from remote api
-        val client = apiService.getPokeDetail(name)
+        val client = name?.let { apiService.getPokeDetail(it) }
 
-        client.enqueue(object : Callback<PokemonDetailResponse> {
+        client?.enqueue(object : Callback<PokemonDetailResponse> {
             override fun onResponse(
                 call: Call<PokemonDetailResponse>,
                 response: Response<PokemonDetailResponse>

@@ -8,7 +8,7 @@ interface IPokemonRepository {
 
     fun getAllPokemon(): LiveData<Resource<List<Pokemon>>>
 
-    fun getDetailPokemon(name:Pokemon) : LiveData<Resource<Pokemon>>
+    fun getDetailPokemon(pokemon:Pokemon) : LiveData<Resource<Pokemon>>
 
     fun getFavoritePokemon(): LiveData<List<Pokemon>>
 

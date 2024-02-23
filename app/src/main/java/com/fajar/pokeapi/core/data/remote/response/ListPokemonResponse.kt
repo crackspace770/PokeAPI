@@ -19,20 +19,6 @@ data class ListPokemonResponse(
 
 data class PokemonResponse(
 
-	@field:SerializedName("name")
-	val id:Int,
-	@field:SerializedName("name")
 	val name: String,
-	@field:SerializedName("types")
-	val types: String,
-	@field:SerializedName("height")
-	val height: Int,
-	@field:SerializedName("weight")
-	val weight: Int,
-	@field:SerializedName("abilities")
-	val abilities: String,
-	@field:SerializedName("stats")
-	val stats: String,
-	@field:SerializedName("sprites")
-	val sprites: String
+	val url: String
 )

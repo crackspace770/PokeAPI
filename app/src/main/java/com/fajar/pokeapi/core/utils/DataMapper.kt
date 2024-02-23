@@ -2,26 +2,24 @@ package com.fajar.pokeapi.core.utils
 
 import com.fajar.pokeapi.core.domain.model.Pokemon
 import com.fajar.pokeapi.core.data.local.entity.PokemonEntity
-import com.fajar.pokeapi.core.data.remote.response.ListPokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonDetailResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
 
 object DataMapper {
 
 
-    //  Movie Response To Entity
     fun mapResponsesToEntities(input: List<PokemonResponse> ): List<PokemonEntity> {
         val pokeList = ArrayList<PokemonEntity>()
         input.map {
             val pokemon = PokemonEntity(
-                it.id,
+                null,
                 it.name,
-                it.types,
-                it.height,
-                it.weight,
-                it.abilities,
-                it.stats,
-                it.sprites
+                it.url,
+                null,
+                null,
+                null,
+               null,
+                null
 
                 )
             pokeList.add(pokemon)
@@ -34,18 +32,20 @@ object DataMapper {
 
 
     fun mapEntitiesToDomain(input: List<PokemonEntity>): List<Pokemon> =
-        input.map {
-            Pokemon(
-                id = it.id,
-                name = it.name,
-                types = it.types,
-                height = it.height,
-                weight = it.weight,
-                abilities = it.abilities,
-                stats = it.stats,
-                sprites = it.sprites,
-                isFavorite = it.isFavorite,
-            )
+        input.let { list ->
+            list.map {
+                Pokemon(
+                    id = it.id,
+                    name = it.name,
+                    types = it.types,
+                    height = it.height,
+                    weight = it.weight,
+                    abilities = it.abilities,
+                    stats = it.stats,
+                    sprites = it.sprites,
+                    isFavorite = it.isFavorite,
+                )
+            }
         }
 
     fun mapDetailPokemonResponseToDomain(data: PokemonDetailResponse): Pokemon {

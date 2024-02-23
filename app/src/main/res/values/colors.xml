@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="hp_color">#00FF00</color> <!-- Green for HP -->
+    <color name="attack_color">#FF0000</color> <!-- Red for Attack -->
+    <color name="defense_color">#0000FF</color> <!-- Blue for Defense -->
+    <color name="special_attack_color">#FF00FF</color> <!-- Pink for Special Attack -->
+    <color name="special_defense_color">#FFFF00</color> <!-- Yellow for Special Defense -->
+    <color name="speed_color">#0000FF</color> <!-- Blue for Speed -->
+    <color name="default_color">#808080</color> <!-- Default color if the stat name is not recognized -->
+
+
+        <!-- Normal -->
+        <color name="normal_color">#A8A77A</color> <!-- Normal for Normal -->
+
+        <!-- Fire -->
+        <color name="fire_color">#EE8130</color> <!-- Orange for Fire -->
+
+        <!-- Water -->
+        <color name="water_color">#6390F0</color> <!-- Blue for Water -->
+
+        <!-- Electric -->
+        <color name="electric_color">#F7D02C</color> <!-- Yellow for Electric -->
+
+        <!-- Grass -->
+        <color name="grass_color">#7AC74C</color> <!-- Green for Grass -->
+
+        <!-- Ice -->
+        <color name="ice_color">#96D9D6</color> <!-- Light Blue for Ice -->
+
+        <!-- Fighting -->
+        <color name="fighting_color">#C22E28</color> <!-- Red for Fighting -->
+
+        <!-- Poison -->
+        <color name="poison_color">#A33EA1</color> <!-- Purple for Poison -->
+
+        <!-- Ground -->
+        <color name="ground_color">#E2BF65</color> <!-- Brown for Ground -->
+
+        <!-- Flying -->
+        <color name="flying_color">#A98FF3</color> <!-- Lavender for Flying -->
+
+        <!-- Psychic -->
+        <color name="psychic_color">#F95587</color> <!-- Pink for Psychic -->
+
+        <!-- Bug -->
+        <color name="bug_color">#A6B91A</color> <!-- Lime for Bug -->
+
+        <!-- Rock -->
+        <color name="rock_color">#B6A136</color> <!-- Yellow-Brown for Rock -->
+
+        <!-- Ghost -->
+        <color name="ghost_color">#735797</color> <!-- Dark Purple for Ghost -->
+
+        <!-- Dragon -->
+        <color name="dragon_color">#6F35FC</color> <!-- Indigo for Dragon -->
+
+        <!-- Dark -->
+        <color name="dark_color">#705746</color> <!-- Dark Brown for Dark -->
+
+        <!-- Steel -->
+        <color name="steel_color">#B7B7CE</color> <!-- Light Grey for Steel -->
+
+        <!-- Fairy -->
+        <color name="fairy_color">#D685AD</color> <!-- Pinkish for Fairy -->
+
+        <!--Stellar -->
+        <color name="stellar_color">#40A2D8</color>
+
+
+
+</resources>

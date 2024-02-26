@@ -1,4 +1,4 @@
-##PokeApi App
+## PokeApi App
 
 This is a Pokedex app using MVVM architecture
 

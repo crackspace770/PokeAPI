@@ -1,6 +1,6 @@
 package com.fajar.pokeapi.core.data.remote.network
 
-import com.fajar.pokeapi.core.data.remote.response.ListPokemonDetailResponse
+
 import com.fajar.pokeapi.core.data.remote.response.ListPokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.ListPokemonsResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonDetailResponse

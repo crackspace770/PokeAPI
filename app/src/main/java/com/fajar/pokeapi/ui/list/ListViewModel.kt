@@ -9,11 +9,12 @@ import com.fajar.pokeapi.core.data.remote.response.ListPokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.ListPokemonsResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonsResponse
+import com.fajar.pokeapi.core.domain.usecase.PokemonUseCase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListViewModel: ViewModel() {
+class ListViewModel (pokemonUseCase: PokemonUseCase) : ViewModel() {
 
     private val _listPokemon = MutableLiveData<List<PokemonsResponse>>()
     val listPokemon: LiveData<List<PokemonsResponse>> = _listPokemon
@@ -21,9 +22,8 @@ class ListViewModel: ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    init {
-        findPoke()
-    }
+    val pokemon = pokemonUseCase.getAllPokemon()
+
 
     private fun findPoke() {
         _isLoading.value = true

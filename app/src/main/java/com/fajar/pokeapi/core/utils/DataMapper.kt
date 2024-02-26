@@ -4,6 +4,7 @@ import com.fajar.pokeapi.core.domain.model.Pokemon
 import com.fajar.pokeapi.core.data.local.entity.PokemonEntity
 import com.fajar.pokeapi.core.data.remote.response.PokemonDetailResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
+import com.fajar.pokeapi.core.data.remote.response.StatsItem
 
 object DataMapper {
 
@@ -58,9 +59,10 @@ object DataMapper {
             abilities.forEach { abilityList.add(it.ability.name) }
             val ability = abilityList.joinToString (separator = ", ")
 
-            val statList = ArrayList<String>()
-            stats.forEach { statList.add(it.stat.name) }
-            val stat = abilityList.joinToString (separator = ", ")
+            // Map the base stats correctly
+            val statsList = ArrayList<String>()
+            stats.forEach { statsList.add("${it.stat.name}: ${it.baseStat}") }
+            val stats = statsList.joinToString(separator = ", ")
 
             return Pokemon(
                 id,
@@ -69,7 +71,7 @@ object DataMapper {
                 height,
                 weight,
                 ability,
-                stat,
+                stats,
                 sprites.frontDefault,
 
             )

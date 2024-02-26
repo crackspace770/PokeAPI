@@ -19,7 +19,7 @@ class PokemonFragment: Fragment() {
 
     private var binding: FragmentPokemonBinding? = null
     private val viewModel: ListViewModel by viewModels()
-    private val pokemonAdapter = ListPokemonAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -2,20 +2,7 @@ package com.fajar.pokeapi.core.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class ListPokemonDetailResponse(
 
-	@field:SerializedName("next")
-	val next: String,
-
-	@field:SerializedName("previous")
-	val previous: Any,
-
-	@field:SerializedName("count")
-	val count: Int,
-
-	@field:SerializedName("results")
-	val results: List<PokemonDetailResponse>
-)
 
 data class PokemonDetailResponse(
     val id: Int,
@@ -40,10 +27,10 @@ data class AbilitiesItem(
 )
 
 data class StatsItem(
-    val stat: Stat,
-    @SerializedName("base_stat")
+	val stat: Stat,
+	@SerializedName("base_stat")
 	val baseStat: Int,
-    val effort: Int
+	val effort: Int
 )
 
 data class Type(

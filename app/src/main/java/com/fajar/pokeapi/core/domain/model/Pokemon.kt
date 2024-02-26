@@ -1,9 +1,7 @@
 package com.fajar.pokeapi.core.domain.model
 
 import android.os.Parcelable
-import com.fajar.pokeapi.core.data.remote.response.StatsItem
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 
 @Parcelize
 class Pokemon(

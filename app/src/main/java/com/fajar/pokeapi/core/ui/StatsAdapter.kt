@@ -15,7 +15,7 @@ import com.fajar.pokeapi.databinding.StatItemBinding
 class StatsAdapter : RecyclerView.Adapter<StatsAdapter.StatsViewHolder>() {
 
     inner class StatsViewHolder(private val binding:StatItemBinding):
-    RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind (stat: StatsItem) {
             binding.apply {

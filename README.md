@@ -2,6 +2,6 @@
 
 This is a Pokedex app using MVVM architecture
 
-<img src="https://drive.google.com/file/d/1mMtDQmmKHNQHhFbsC2__4WygJO4awJbI/view?usp=sharing"/>
+<img src="https://github.com/crackspace770/PokeAPI/blob/master/ss/Pokedex%20screenshot.png"/>
 
 

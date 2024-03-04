@@ -5,59 +5,78 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.fajar.pokeapi.R
+import com.fajar.pokeapi.core.data.Resource
 import com.fajar.pokeapi.core.ui.ListPokemonAdapter
-import com.fajar.pokeapi.core.ui.ListPokemonAdapters
-import com.fajar.pokeapi.databinding.ActivityListBinding
+import com.fajar.pokeapi.core.ui.ViewModelFactory
+import com.fajar.pokeapi.core.utils.VerticalSpaceItemDecoration
 import com.fajar.pokeapi.databinding.FragmentPokemonBinding
 import com.fajar.pokeapi.ui.detail.DetailActivity
 
 class PokemonFragment: Fragment() {
 
-    private var binding: FragmentPokemonBinding? = null
-    private val viewModel: ListViewModel by viewModels()
-
+    private lateinit var binding: FragmentPokemonBinding
+    private lateinit var viewModel: ListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPokemonBinding.inflate(inflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set up RecyclerView for VerseItems
-        val pokemonAdapter = ListPokemonAdapters()
-        binding?.rvPokemon?.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding?.rvPokemon?.adapter = pokemonAdapter
+        // Access the hosting activity and cast it to AppCompatActivity
+        val activity = requireActivity() as AppCompatActivity
 
-        viewModel.listPokemon.observe(requireActivity()){ pokemon->
-            pokemonAdapter.submitList(pokemon)
+        // Set the toolbar as the action bar using setSupportActionBar
+        activity.setSupportActionBar(binding.myToolbar)
 
+        val factory = ViewModelFactory.getInstance(requireContext())
+        viewModel = ViewModelProvider(this, factory)[ListViewModel::class.java]
+
+        val pokemonAdapter = ListPokemonAdapter()
+
+        viewModel.getAllPokemon().observe(requireActivity()) { pokemon ->
+            if (pokemon != null) {
+                when (pokemon) {
+                    is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
+                    is Resource.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        pokemonAdapter.setData(pokemon.data)
+                    }
+
+                    is Resource.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.viewError.root.visibility = View.VISIBLE
+
+                    }
+
+                }
+            }
         }
 
-        viewModel.isLoading.observe(requireActivity()){isLoading->
-            showLoading(isLoading)
-        }
+        binding.rvPokemon.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvPokemon.adapter = pokemonAdapter
+
+        val verticalSpacingInPixels = resources.getDimensionPixelSize(R.dimen.vertical_spacing) // Define your desired spacing dimension
+        val itemDecoration = VerticalSpaceItemDecoration(verticalSpacingInPixels)
+        binding.rvPokemon.addItemDecoration(itemDecoration)
 
         pokemonAdapter.onItemClick = { pokemon ->
             // Handle item click here
             val intent = Intent(requireContext(), DetailActivity::class.java)
-            intent.putExtra("name", pokemon.name) // Pass the surah number
+            intent.putExtra(DetailActivity.EXTRA_POKE, pokemon)
             startActivity(intent)
         }
 
     }
-
-    private fun showLoading(isLoading:Boolean){
-        binding?.progressBar?.visibility = if(isLoading) View.VISIBLE else View.GONE
-    }
-
 
 }

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mobile_navigation">
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/pokemonFragment">
 
+    <fragment
+        android:id="@+id/pokemonFragment"
+        android:name="com.fajar.pokeapi.ui.list.PokemonFragment"
+        android:label="PokemonFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.fajar.pokeapi.ui.search.SearchFragment"
+        android:label="SearchFragment" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.fajar.pokeapi.ui.favorite.FavoriteFragment"
+        android:label="FavoriteFragment" />
 </navigation>

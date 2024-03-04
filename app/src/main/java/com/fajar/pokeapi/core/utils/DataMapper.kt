@@ -2,6 +2,7 @@ package com.fajar.pokeapi.core.utils
 
 import com.fajar.pokeapi.core.domain.model.Pokemon
 import com.fajar.pokeapi.core.data.local.entity.PokemonEntity
+import com.fajar.pokeapi.core.data.remote.response.ListPokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonDetailResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.StatsItem
@@ -9,9 +10,10 @@ import com.fajar.pokeapi.core.data.remote.response.StatsItem
 object DataMapper {
 
 
-    fun mapResponsesToEntities(input: List<PokemonResponse> ): List<PokemonEntity> {
+    fun mapResponsesToEntities(input: ListPokemonResponse): List<PokemonEntity> {
         val pokeList = ArrayList<PokemonEntity>()
-        input.map {
+        input.results.forEach {
+
             val pokemon = PokemonEntity(
                 null,
                 it.name,
@@ -19,14 +21,14 @@ object DataMapper {
                 null,
                 null,
                 null,
-               null,
+                null,
                 null
 
-                )
+            )
             pokeList.add(pokemon)
+
         }
         return pokeList
-
 
     }
 
@@ -76,6 +78,22 @@ object DataMapper {
 
             )
         }
+    }
+
+    fun mapSearchResponseDomain(data:ListPokemonResponse): List<Pokemon> {
+        return data.results.map{
+            Pokemon(
+                null,
+                it.name,
+                it.url,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        }
+
     }
 
     fun mapDomainToEntity(input: Pokemon) = PokemonEntity(

@@ -1,16 +1,14 @@
 package com.fajar.pokeapi.core.data.remote
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.fajar.pokeapi.core.data.remote.network.ApiResponse
 import com.fajar.pokeapi.core.data.remote.network.ApiService
 import com.fajar.pokeapi.core.data.remote.response.ListPokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonDetailResponse
-import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class RemoteDataSource private constructor(private val apiService: ApiService) {
     companion object {
@@ -23,60 +21,53 @@ class RemoteDataSource private constructor(private val apiService: ApiService) {
             }
     }
 
-    fun getAllPokemon(): LiveData<ApiResponse<List<PokemonResponse>>> {
-        val resultData = MutableLiveData<ApiResponse<List<PokemonResponse>>>()
-
-        //get data from remote api
-        val client = apiService.getPokemonList()
-
-        client.enqueue(object : Callback<ListPokemonResponse> {
-            override fun onResponse(
-                call: Call<ListPokemonResponse>,
-                response: Response<ListPokemonResponse>
-            ) {
-                val dataArray = response.body()?.results
-                resultData.value = if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
+    suspend fun getAllPokemon(): Flow<ApiResponse<ListPokemonResponse>> {
+        return flow {
+            try {
+                val response = apiService.getPokemonList()
+                val tvList = response.results
+                if (tvList.isNotEmpty()) {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty(response))
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("RemoteDataSource", "Failed to Get Popular TvShow List")
+                Log.e("RemoteDataSource", e.message.toString())
             }
-
-            override fun onFailure(call: Call<ListPokemonResponse>, t: Throwable) {
-                resultData.value = ApiResponse.Error(t.message.toString())
-                Log.e("RemoteDataSource", t.message.toString())
-            }
-        })
-
-        return resultData
+        }.flowOn(Dispatchers.IO)
     }
 
-    fun getPokemonDetail(name: String?): LiveData<ApiResponse<PokemonDetailResponse>> {
-        val resultData = MutableLiveData<ApiResponse<PokemonDetailResponse>>()
+    suspend fun getPokemonDetail(name: String): Flow<ApiResponse<PokemonDetailResponse>> {
+        return flow {
+            try {
+                val response = apiService.getPokeDetail(name)
+                emit(ApiResponse.Success(response))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("RemoteDataSource", "Failed to Get Movie Detail")
+                Log.e("RemoteDataSource", e.message.toString())
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 
-        //get data from remote api
-        val client = name?.let { apiService.getPokeDetail(it) }
-
-        client?.enqueue(object : Callback<PokemonDetailResponse> {
-            override fun onResponse(
-                call: Call<PokemonDetailResponse>,
-                response: Response<PokemonDetailResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val pokemonDetailResponse = response.body()
-                    resultData.value = if (pokemonDetailResponse != null) {
-                        ApiResponse.Success(pokemonDetailResponse)
-                    } else {
-                        ApiResponse.Empty
-                    }
+    suspend fun searchMovie(name:String): Flow<ApiResponse<ListPokemonResponse>> {
+        return flow {
+            try {
+                val response = apiService.getSearch(name)
+                val searchList = response.results
+                if (searchList.isNotEmpty()) {
+                    emit(ApiResponse.Success(response))
                 } else {
-                    resultData.value = ApiResponse.Error(response.message())
+                    emit(ApiResponse.Empty(response))
                 }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("RemoteDataSource", "Failed to Get Search Movie Results")
+                Log.e("RemoteDataSource", e.message.toString())
             }
-
-            override fun onFailure(call: Call<PokemonDetailResponse>, t: Throwable) {
-                resultData.value = ApiResponse.Error(t.message.toString())
-                Log.e("RemoteDataSource", t.message.toString())
-            }
-        })
-
-        return resultData
+        }.flowOn(Dispatchers.IO)
     }
 
 

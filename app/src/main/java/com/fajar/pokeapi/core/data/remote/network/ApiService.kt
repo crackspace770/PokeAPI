@@ -13,19 +13,19 @@ import retrofit2.http.Query
 interface ApiService{
 
     @GET("pokemon")
-    fun getPokemonList(): Call<ListPokemonResponse>
+    suspend fun getPokemonList(): ListPokemonResponse
 
     @GET("pokemon")
-    fun getsPokemonList(): Call<ListPokemonsResponse>
+    suspend fun getsPokemonList(): ListPokemonsResponse
 
     @GET("pokemon")
-    fun getSearch(
+    suspend fun getSearch(
         @Query("pokemon") name: String
-    ): Call<PokemonResponse>
+    ): ListPokemonResponse
 
     @GET("pokemon/{name}")
-    fun getPokeDetail(
+    suspend fun getPokeDetail(
         @Path("name") name: String,
-    ): Call<PokemonDetailResponse>
+    ): PokemonDetailResponse
 
 }

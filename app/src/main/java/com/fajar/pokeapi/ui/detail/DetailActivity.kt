@@ -21,7 +21,9 @@ import com.fajar.pokeapi.core.ui.StatsAdapter
 import com.fajar.pokeapi.core.ui.TypeAdapter
 import com.fajar.pokeapi.core.ui.ViewModelFactory
 import com.fajar.pokeapi.core.utils.Constant
+import com.fajar.pokeapi.core.utils.HorizontalSpaceItemDecoration
 import com.fajar.pokeapi.core.utils.Utils.loadImageUrl
+import com.fajar.pokeapi.core.utils.VerticalSpaceItemDecoration
 import com.fajar.pokeapi.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
@@ -111,20 +113,16 @@ class DetailActivity : AppCompatActivity() {
                 // Construct the URL for the official artwork image
                 val officialArtworkUrl = "${Constant.OFFICIAL_ARTWORK_URL}${id}.png"
 
-                // Load the official artwork image
+             
                 imgPokemon.loadImageUrl(officialArtworkUrl)
 
 
-                // Parse types string into a list of TypesItem
                 val typesList = types?.let { parseTypesString(it) }
 
-                // Update the adapter with the parsed types list
                 typesList?.let { typeAdapter.differ.submitList(it) }
 
-                // Similarly, parse stats string into a list of StatsItem
                 val statsList = stats?.let { parseStatsString(it) }
 
-                // Update the adapter with the parsed stats list
                 statsList?.let { statAdapter.differ.submitList(it) }
 
                 typesList?.firstOrNull()?.type?.name?.let { typeName ->
@@ -159,9 +157,13 @@ class DetailActivity : AppCompatActivity() {
                 }
 
             }
+            val horizontalSpacingInPixels = resources.getDimensionPixelSize(R.dimen.vertical_spacing) // Define your desired spacing dimension
+            val itemDecoration = HorizontalSpaceItemDecoration(horizontalSpacingInPixels)
+            rvType.addItemDecoration(itemDecoration)
         }
 
     }
+
 
     private fun parseTypesString(typesString: String): List<TypesItem> {
         val typesList = mutableListOf<TypesItem>()

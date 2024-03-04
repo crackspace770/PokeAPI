@@ -1,17 +1,19 @@
 package com.fajar.pokeapi.core.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.fajar.pokeapi.core.domain.model.Pokemon
 import com.fajar.pokeapi.core.domain.repository.IPokemonRepository
 import com.fajar.pokeapi.core.data.local.LocalDataSource
 import com.fajar.pokeapi.core.data.remote.RemoteDataSource
 import com.fajar.pokeapi.core.data.remote.network.ApiResponse
+import com.fajar.pokeapi.core.data.remote.response.ListPokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonDetailResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
 import com.fajar.pokeapi.core.utils.AppExecutors
 import com.fajar.pokeapi.core.utils.DataMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
 class PokemonRepository private constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -33,52 +35,72 @@ class PokemonRepository private constructor(
             }
     }
 
-    override fun getAllPokemon(): LiveData<Resource<List<Pokemon>>> =
-        object : NetworkBoundResource<List<Pokemon>, List<PokemonResponse>>(appExecutors) {
-            override fun loadFromDB(): LiveData<List<Pokemon>> {
-                return localDataSource.getAllPokemon().map { DataMapper.mapEntitiesToDomain(it) }
+    override fun getAllPokemon(): Flow<Resource<List<Pokemon>>> {
+        return object :
+            NetworkBoundResource<List<Pokemon>, ListPokemonResponse>(){
+
+            override fun loadFromDB(): Flow<List<Pokemon>> {
+                return localDataSource.getAllPokemon().map {
+                    DataMapper.mapEntitiesToDomain(it)
+                }
             }
 
-            override fun shouldFetch(data: List<Pokemon>?): Boolean =
-//                data == null || data.isEmpty()
-                true // ganti dengan true jika ingin selalu mengambil data dari internet
+            override fun shouldFetch(data: List<Pokemon>?): Boolean {
+                return data == null || data.isEmpty() || data.size <= 15
+            }
 
-            override fun createCall(): LiveData<ApiResponse<List<PokemonResponse>>> =
+            override suspend fun createCall(): Flow<ApiResponse<ListPokemonResponse>> =
                 remoteDataSource.getAllPokemon()
 
-            override fun saveCallResult(data: List<PokemonResponse>) {
-                val pokemonList = DataMapper.mapResponsesToEntities(data)
-                localDataSource.insertPokemon(pokemonList)
+            override suspend fun saveCallResult(data: ListPokemonResponse) {
+                val pokemon = DataMapper.mapResponsesToEntities(data)
+                localDataSource.insertPokemon(pokemon)
             }
-        }.asLiveData()
-
-
-
-    //activity detail(movie)
-    override fun getDetailPokemon(pokemon: Pokemon): LiveData<Resource<Pokemon>> {
-        return object : NetworkOnlyResource<Pokemon, PokemonDetailResponse>(appExecutors) {
-            override fun createCall(): LiveData<ApiResponse<PokemonDetailResponse>> {
-                return remoteDataSource.getPokemonDetail(pokemon.name)
-            }
-
-            override fun loadFromNetwork(data: PokemonDetailResponse): LiveData<Pokemon> {
-                val mappedPokemon = DataMapper.mapDetailPokemonResponseToDomain(data)
-                val resultLiveData = MutableLiveData<Pokemon>()
-                resultLiveData.postValue(mappedPokemon)
-                return resultLiveData
-            }
-        }.asLiveData()
+        }.asFlow()
     }
 
-    override fun getFavoritePokemon(): LiveData<List<Pokemon>> {
+
+
+
+    override fun getDetailPokemon(pokemon: Pokemon): Flow<Resource<Pokemon>> {
+        return object : NetworkOnlyResource<Pokemon, PokemonDetailResponse>() {
+            override suspend fun createCall(): Flow<ApiResponse<PokemonDetailResponse>> {
+                return remoteDataSource.getPokemonDetail(pokemon.name.toString())
+            }
+
+            override suspend fun loadFromNetwork(data: PokemonDetailResponse): Flow<Pokemon> {
+                return flowOf(DataMapper.mapDetailPokemonResponseToDomain(data))
+            }
+        }.asFlow()
+    }
+
+    //fragment search
+    override fun getSearchPokemon(name: String): Flow<Resource<List<Pokemon>>> {
+        return object :
+            NetworkOnlyResource<List<Pokemon>, ListPokemonResponse>() {
+
+            override suspend fun createCall(): Flow<ApiResponse<ListPokemonResponse>> {
+                return remoteDataSource.searchMovie(name)
+            }
+
+            override suspend fun loadFromNetwork(data: ListPokemonResponse): Flow<List<Pokemon>> {
+                return flowOf(DataMapper.mapSearchResponseDomain(data))
+            }
+        }.asFlow()
+    }
+
+    override fun getFavoritePokemon(): Flow<List<Pokemon>> {
         return localDataSource.getFavoritePokemon().map { DataMapper.mapEntitiesToDomain(it) }
     }
 
     override fun setFavoritePokemon(pokemon: Pokemon, state: Boolean) {
         val tourismEntity = DataMapper.mapDomainToEntity(pokemon)
-        appExecutors.diskIO().execute { localDataSource.setFavoritePokemon(tourismEntity, state) }
+        appExecutors.diskIO().execute {
+            runBlocking {
+                localDataSource.setFavoritePokemon(tourismEntity, state)
+            }
+        }
     }
-
 }
 
 

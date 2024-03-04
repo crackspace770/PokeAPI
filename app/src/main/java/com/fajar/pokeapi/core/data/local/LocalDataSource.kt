@@ -1,29 +1,37 @@
 package com.fajar.pokeapi.core.data.local
 
-import androidx.lifecycle.LiveData
 import com.fajar.pokeapi.core.data.local.entity.PokemonEntity
 import com.fajar.pokeapi.core.data.local.room.PokemonDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
 class LocalDataSource private constructor(private val pokemonDao: PokemonDao) {
 
     companion object {
         private var instance: LocalDataSource? = null
 
-        fun getInstance(tourismDao: PokemonDao): LocalDataSource =
+        fun getInstance(pokemonDao: PokemonDao): LocalDataSource =
             instance ?: synchronized(this) {
-                instance ?: LocalDataSource(tourismDao)
+                instance ?: LocalDataSource(pokemonDao)
             }
     }
 
-    fun getAllPokemon(): LiveData<List<PokemonEntity>> = pokemonDao.getAllPokemon()
+    fun getAllPokemon(): Flow<List<PokemonEntity>> = pokemonDao.getAllPokemon()
 
-    fun getFavoritePokemon(): LiveData<List<PokemonEntity>> = pokemonDao.getFavoritePokemon()
+    fun getFavoritePokemon(): Flow<List<PokemonEntity>> = pokemonDao.getFavoritePokemon()
 
-    fun insertPokemon(pokemonList: List<PokemonEntity>) = pokemonDao.insertPokemon(pokemonList)
+    suspend fun insertPokemon(pokemonList: List<PokemonEntity>) {
+        withContext(Dispatchers.IO) {
+            pokemonDao.insertPokemon(pokemonList)
+        }
+    }
 
-    fun setFavoritePokemon(pokemon: PokemonEntity, newState: Boolean) {
-        pokemon.isFavorite = newState
-        pokemonDao.updateFavoritePokemon(pokemon)
+    suspend fun setFavoritePokemon(pokemon: PokemonEntity, newState: Boolean) {
+        withContext(Dispatchers.IO) {
+            pokemon.isFavorite = newState
+            pokemonDao.updateFavoritePokemon(pokemon)
+        }
     }
 
 }

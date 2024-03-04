@@ -1,47 +1,35 @@
 package com.fajar.pokeapi.core.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-
 import com.fajar.pokeapi.core.data.remote.network.ApiResponse
-import com.fajar.pokeapi.core.utils.AppExecutors
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 
-abstract class NetworkOnlyResource<ResultType, RequestType>(private val mExecutors: AppExecutors) {
-
-
-    private val result = MediatorLiveData<Resource<ResultType>>()
-
-    init {
-        result.value = Resource.Loading()
-        val apiResponseLiveData = createCall()
-
-        result.addSource(apiResponseLiveData) { apiResponse ->
-            result.removeSource(apiResponseLiveData)
-
-            when (apiResponse) {
-                is ApiResponse.Success -> {
-                    val data = apiResponse.data
-                    val networkResultLiveData = loadFromNetwork(data)
-                    result.addSource(networkResultLiveData) { resultType ->
-                        result.value = Resource.Success(resultType)
-                    }
-                }
-
-                is ApiResponse.Error -> {
-                    result.value = Resource.Error(apiResponse.errorMessage)
-                    onFetchFailed()
-                }
-                else -> {}
+abstract class NetworkOnlyResource<ResultType, RequestType>() {
+    private val result: Flow<Resource<ResultType>> = flow {
+        emit(Resource.Loading())
+        when (val apiResponse = createCall().first()){
+            is ApiResponse.Success -> {
+                emitAll(loadFromNetwork(apiResponse.data).map { Resource.Success(it) })
             }
+            is ApiResponse.Empty -> {
+                emitAll(loadFromNetwork(apiResponse.data).map { Resource.Success(it) })
+            }
+            is ApiResponse.Error -> {
+                emit(Resource.Error(apiResponse.errorMessage))
+            }
+
+            else -> {}
         }
     }
 
-    protected open fun onFetchFailed() {}
 
-    protected abstract fun createCall(): LiveData<ApiResponse<RequestType>>
+    protected abstract suspend fun createCall(): Flow<ApiResponse<RequestType>>
 
-    protected abstract fun loadFromNetwork(data: RequestType): LiveData<ResultType>
+    protected abstract suspend fun loadFromNetwork(data: RequestType): Flow<ResultType>
 
-    fun asLiveData() = result as LiveData<Resource<ResultType>>
+    fun asFlow(): Flow<Resource<ResultType>> = result
 }

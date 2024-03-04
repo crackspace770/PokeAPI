@@ -9,13 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fajar.pokeapi.R
-import com.fajar.pokeapi.core.data.remote.response.PokemonDetailResponse
-import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
 import com.fajar.pokeapi.core.data.remote.response.PokemonsResponse
-import com.fajar.pokeapi.databinding.PokemonItemBinding
-import com.fajar.pokeapi.databinding.PokemonsItemsBinding
-import com.fajar.pokeapi.core.utils.Constant
 import com.fajar.pokeapi.core.utils.Constant.Companion.OFFICIAL_ARTWORK_URL
+import com.fajar.pokeapi.databinding.PokemonsItemsBinding
 
 class ListPokemonAdapters : ListAdapter<PokemonsResponse, ListPokemonAdapters.ListViewHolder>(DIFF_CALLBACK)  {
 
@@ -37,9 +33,7 @@ class ListPokemonAdapters : ListAdapter<PokemonsResponse, ListPokemonAdapters.Li
         }
 
         init {
-            binding.root.setOnClickListener {
-                onItemClick?.invoke(getItem(adapterPosition))
-            }
+            binding.root.setOnClickListener { onItemClick?.invoke(getItem(adapterPosition)) }
         }
     }
 

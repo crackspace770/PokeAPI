@@ -7,15 +7,16 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.fajar.pokeapi.core.data.local.entity.PokemonEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PokemonDao {
 
     @Query("SELECT * FROM pokemon")
-    fun getAllPokemon(): LiveData<List<PokemonEntity>>
+    fun getAllPokemon(): Flow<List<PokemonEntity>>
 
     @Query("SELECT * FROM pokemon where isFavorite = 1")
-    fun getFavoritePokemon(): LiveData<List<PokemonEntity>>
+    fun getFavoritePokemon(): Flow<List<PokemonEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPokemon(tourism: List<PokemonEntity>)

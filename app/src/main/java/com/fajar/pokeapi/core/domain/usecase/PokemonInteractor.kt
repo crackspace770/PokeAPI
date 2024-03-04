@@ -10,6 +10,8 @@ class PokemonInteractor(private val pokemonRepository: IPokemonRepository): Poke
 
     override fun getAllPokemon() = pokemonRepository.getAllPokemon()
 
+    override fun getSearchPokemon(name:String) = pokemonRepository.getSearchPokemon(name)
+
     override fun getDetailPokemon(pokemon: Pokemon) = pokemonRepository.getDetailPokemon(pokemon)
 
     override fun getFavoritePokemon() = pokemonRepository.getFavoritePokemon()

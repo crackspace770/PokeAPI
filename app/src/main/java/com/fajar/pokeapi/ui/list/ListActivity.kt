@@ -3,16 +3,14 @@ package com.fajar.pokeapi.ui.list
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.fajar.pokeapi.R
 import com.fajar.pokeapi.core.data.Resource
 import com.fajar.pokeapi.core.ui.ListPokemonAdapter
-import com.fajar.pokeapi.core.ui.ListPokemonAdapters
 import com.fajar.pokeapi.core.ui.ViewModelFactory
+import com.fajar.pokeapi.core.utils.VerticalSpaceItemDecoration
 import com.fajar.pokeapi.databinding.ActivityListBinding
 import com.fajar.pokeapi.ui.detail.DetailActivity
 
@@ -34,7 +32,7 @@ class ListActivity:AppCompatActivity() {
 
         val pokemonAdapter = ListPokemonAdapter()
 
-        viewModel.pokemon.observe(this@ListActivity) { pokemon ->
+        viewModel.getAllPokemon().observe(this@ListActivity) { pokemon ->
             if (pokemon != null) {
                 when (pokemon) {
                     is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
@@ -59,12 +57,18 @@ class ListActivity:AppCompatActivity() {
         binding.rvPokemon.layoutManager = GridLayoutManager(this, 2)
         binding.rvPokemon.adapter = pokemonAdapter
 
+        val verticalSpacingInPixels = resources.getDimensionPixelSize(R.dimen.vertical_spacing) // Define your desired spacing dimension
+        val itemDecoration = VerticalSpaceItemDecoration(verticalSpacingInPixels)
+        binding.rvPokemon.addItemDecoration(itemDecoration)
+
         pokemonAdapter.onItemClick = { pokemon ->
             // Handle item click here
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra(DetailActivity.EXTRA_POKE, pokemon) // Pass the surah number
             startActivity(intent)
         }
+
+
     }
 
 

@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.fajar.pokeapi.core.di.Injection
 import com.fajar.pokeapi.core.domain.usecase.PokemonUseCase
 import com.fajar.pokeapi.ui.detail.DetailViewModel
+import com.fajar.pokeapi.ui.favorite.FavoriteViewModel
 import com.fajar.pokeapi.ui.list.ListViewModel
+import com.fajar.pokeapi.ui.search.SearchViewModel
 
 class ViewModelFactory private constructor(private val pokemonUseCase: PokemonUseCase) :
     ViewModelProvider.NewInstanceFactory() {
@@ -32,6 +34,12 @@ class ViewModelFactory private constructor(private val pokemonUseCase: PokemonUs
 
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(pokemonUseCase) as T
+            }
+            modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
+                SearchViewModel(pokemonUseCase) as T
+            }
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
+                FavoriteViewModel(pokemonUseCase) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

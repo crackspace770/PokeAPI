@@ -27,8 +27,8 @@ class ListActivity:AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory)[ListViewModel::class.java]
+       // val factory = ViewModelFactory.getInstance(this)
+        viewModel = ViewModelProvider(this, )[ListViewModel::class.java]
 
         val pokemonAdapter = ListPokemonAdapter()
 

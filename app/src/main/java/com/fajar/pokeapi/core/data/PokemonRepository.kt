@@ -14,26 +14,29 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PokemonRepository private constructor(
+@Singleton
+class PokemonRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
 ): IPokemonRepository {
 
-    companion object {
-        @Volatile
-        private var instance: PokemonRepository? = null
+   // companion object {
+    //    @Volatile
+   //     private var instance: PokemonRepository? = null
 
-        fun getInstance(
-            remoteData: RemoteDataSource,
-            localData: LocalDataSource,
-            appExecutors: AppExecutors
-        ): PokemonRepository =
-            instance ?: synchronized(this) {
-                instance ?: PokemonRepository(remoteData, localData, appExecutors)
-            }
-    }
+  //      fun getInstance(
+ //           remoteData: RemoteDataSource,
+ //           localData: LocalDataSource,
+ //           appExecutors: AppExecutors
+ //       ): PokemonRepository =
+ //           instance ?: synchronized(this) {
+  //              instance ?: PokemonRepository(remoteData, localData, appExecutors)
+  //          }
+ //   }
 
     override fun getAllPokemon(): Flow<Resource<List<Pokemon>>> {
         return object :
@@ -80,7 +83,7 @@ class PokemonRepository private constructor(
             NetworkOnlyResource<List<Pokemon>, ListPokemonResponse>() {
 
             override suspend fun createCall(): Flow<ApiResponse<ListPokemonResponse>> {
-                return remoteDataSource.searchMovie(name)
+                return remoteDataSource.searchPokemon(name)
             }
 
             override suspend fun loadFromNetwork(data: ListPokemonResponse): Flow<List<Pokemon>> {

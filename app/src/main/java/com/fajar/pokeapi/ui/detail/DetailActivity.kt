@@ -2,13 +2,11 @@ package com.fajar.pokeapi.ui.detail
 
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fajar.pokeapi.R
 import com.fajar.pokeapi.core.data.Resource
@@ -19,20 +17,20 @@ import com.fajar.pokeapi.core.data.remote.response.TypesItem
 import com.fajar.pokeapi.core.domain.model.Pokemon
 import com.fajar.pokeapi.core.ui.StatsAdapter
 import com.fajar.pokeapi.core.ui.TypeAdapter
-import com.fajar.pokeapi.core.ui.ViewModelFactory
 import com.fajar.pokeapi.core.utils.Constant
 import com.fajar.pokeapi.core.utils.HorizontalSpaceItemDecoration
 import com.fajar.pokeapi.core.utils.Utils.loadImageUrl
-import com.fajar.pokeapi.core.utils.VerticalSpaceItemDecoration
 import com.fajar.pokeapi.databinding.ActivityDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var viewModel: DetailViewModel
     private lateinit var pokemonTitle: String
     private val typeAdapter by lazy {TypeAdapter()}
     private val statAdapter by lazy {StatsAdapter()}
+    private val viewModel: DetailViewModel by viewModels ()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +38,6 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
 

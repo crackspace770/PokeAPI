@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import com.fajar.pokeapi.core.data.Resource
 import com.fajar.pokeapi.core.domain.model.Pokemon
 import com.fajar.pokeapi.core.domain.repository.IPokemonRepository
+import javax.inject.Inject
 
-class PokemonInteractor(private val pokemonRepository: IPokemonRepository): PokemonUseCase  {
+class PokemonInteractor @Inject constructor(private val pokemonRepository: IPokemonRepository): PokemonUseCase  {
 
 
     override fun getAllPokemon() = pokemonRepository.getAllPokemon()

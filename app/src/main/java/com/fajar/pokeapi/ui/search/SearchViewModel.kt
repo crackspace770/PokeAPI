@@ -8,8 +8,11 @@ import androidx.lifecycle.switchMap
 import com.fajar.pokeapi.core.data.Resource
 import com.fajar.pokeapi.core.domain.model.Pokemon
 import com.fajar.pokeapi.core.domain.usecase.PokemonUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SearchViewModel(private val pokemonUseCase: PokemonUseCase):ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(private val pokemonUseCase: PokemonUseCase):ViewModel() {
 
     private val searchQuery = MutableLiveData<String>()
 

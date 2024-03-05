@@ -15,7 +15,9 @@ import com.fajar.pokeapi.databinding.ActivityMainBinding
 import com.fajar.pokeapi.ui.favorite.FavoriteFragment
 import com.fajar.pokeapi.ui.list.PokemonFragment
 import com.fajar.pokeapi.ui.search.SearchFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val binding: ActivityMainBinding by viewBinding()

@@ -1,29 +1,29 @@
 package com.fajar.pokeapi.core.ui
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.fajar.pokeapi.core.di.Injection
 import com.fajar.pokeapi.core.domain.usecase.PokemonUseCase
 import com.fajar.pokeapi.ui.detail.DetailViewModel
 import com.fajar.pokeapi.ui.favorite.FavoriteViewModel
 import com.fajar.pokeapi.ui.list.ListViewModel
 import com.fajar.pokeapi.ui.search.SearchViewModel
+import javax.inject.Inject
 
-class ViewModelFactory private constructor(private val pokemonUseCase: PokemonUseCase) :
+
+class ViewModelFactory @Inject constructor(private val pokemonUseCase: PokemonUseCase) :
     ViewModelProvider.NewInstanceFactory() {
 
-    companion object {
-        @Volatile
-        private var instance: ViewModelFactory? = null
+ //   companion object {
+ //       @Volatile
+ //       private var instance: ViewModelFactory? = null
 
-        fun getInstance(context: Context): ViewModelFactory =
-            instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(
-                    Injection.providePokemonUseCase(context)
-                )
-            }
-    }
+ //       fun getInstance(context: Context): ViewModelFactory =
+ //           instance ?: synchronized(this) {
+ //               instance ?: ViewModelFactory(
+ //                   Injection.providePokemonUseCase(context)
+ //               )
+ //           }
+ //   }
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T =

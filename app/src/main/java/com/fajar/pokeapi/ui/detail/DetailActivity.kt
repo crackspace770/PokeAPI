@@ -8,18 +8,18 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.fajar.core.data.Resource
+import com.fajar.core.data.remote.response.Stat
+import com.fajar.core.data.remote.response.StatsItem
+import com.fajar.core.data.remote.response.Type
+import com.fajar.core.data.remote.response.TypesItem
+import com.fajar.core.domain.model.Pokemon
+import com.fajar.core.ui.StatsAdapter
+import com.fajar.core.ui.TypeAdapter
+import com.fajar.core.utils.Constant
+import com.fajar.core.utils.HorizontalSpaceItemDecoration
+import com.fajar.core.utils.Utils.loadImageUrl
 import com.fajar.pokeapi.R
-import com.fajar.pokeapi.core.data.Resource
-import com.fajar.pokeapi.core.data.remote.response.Stat
-import com.fajar.pokeapi.core.data.remote.response.StatsItem
-import com.fajar.pokeapi.core.data.remote.response.Type
-import com.fajar.pokeapi.core.data.remote.response.TypesItem
-import com.fajar.pokeapi.core.domain.model.Pokemon
-import com.fajar.pokeapi.core.ui.StatsAdapter
-import com.fajar.pokeapi.core.ui.TypeAdapter
-import com.fajar.pokeapi.core.utils.Constant
-import com.fajar.pokeapi.core.utils.HorizontalSpaceItemDecoration
-import com.fajar.pokeapi.core.utils.Utils.loadImageUrl
 import com.fajar.pokeapi.databinding.ActivityDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,8 +28,8 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var pokemonTitle: String
-    private val typeAdapter by lazy {TypeAdapter()}
-    private val statAdapter by lazy {StatsAdapter()}
+    private val typeAdapter by lazy { TypeAdapter() }
+    private val statAdapter by lazy { StatsAdapter() }
     private val viewModel: DetailViewModel by viewModels ()
 
     @SuppressLint("SetTextI18n")

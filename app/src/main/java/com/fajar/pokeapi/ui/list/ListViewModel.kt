@@ -1,22 +1,14 @@
 package com.fajar.pokeapi.ui.list
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.fajar.pokeapi.core.data.Resource
-import com.fajar.pokeapi.core.data.remote.network.ApiConfig
-import com.fajar.pokeapi.core.data.remote.response.ListPokemonResponse
-import com.fajar.pokeapi.core.data.remote.response.ListPokemonsResponse
-import com.fajar.pokeapi.core.data.remote.response.PokemonResponse
-import com.fajar.pokeapi.core.data.remote.response.PokemonsResponse
-import com.fajar.pokeapi.core.domain.model.Pokemon
-import com.fajar.pokeapi.core.domain.usecase.PokemonUseCase
+import com.fajar.core.data.Resource
+import com.fajar.core.data.remote.response.PokemonsResponse
+import com.fajar.core.domain.model.Pokemon
+import com.fajar.core.domain.usecase.PokemonUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel

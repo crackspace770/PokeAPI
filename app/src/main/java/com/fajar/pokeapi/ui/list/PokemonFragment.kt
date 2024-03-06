@@ -1,6 +1,5 @@
 package com.fajar.pokeapi.ui.list
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,18 +8,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.fajar.pokeapi.MyApplication
+import com.fajar.core.data.Resource
+import com.fajar.core.ui.ListPokemonAdapter
+import com.fajar.core.utils.VerticalSpaceItemDecoration
 import com.fajar.pokeapi.R
-import com.fajar.pokeapi.core.data.Resource
-import com.fajar.pokeapi.core.ui.ListPokemonAdapter
-import com.fajar.pokeapi.core.ui.ViewModelFactory
-import com.fajar.pokeapi.core.utils.VerticalSpaceItemDecoration
 import com.fajar.pokeapi.databinding.FragmentPokemonBinding
 import com.fajar.pokeapi.ui.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class PokemonFragment: Fragment() {

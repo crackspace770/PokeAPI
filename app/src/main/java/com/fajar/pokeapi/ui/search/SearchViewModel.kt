@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
-import com.fajar.pokeapi.core.data.Resource
-import com.fajar.pokeapi.core.domain.model.Pokemon
-import com.fajar.pokeapi.core.domain.usecase.PokemonUseCase
+import com.fajar.core.data.Resource
+import com.fajar.core.domain.model.Pokemon
+import com.fajar.core.domain.usecase.PokemonUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

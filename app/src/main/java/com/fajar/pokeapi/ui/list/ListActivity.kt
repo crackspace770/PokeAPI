@@ -6,11 +6,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.fajar.core.data.Resource
+import com.fajar.core.ui.ListPokemonAdapter
+import com.fajar.core.utils.VerticalSpaceItemDecoration
 import com.fajar.pokeapi.R
-import com.fajar.pokeapi.core.data.Resource
-import com.fajar.pokeapi.core.ui.ListPokemonAdapter
-import com.fajar.pokeapi.core.ui.ViewModelFactory
-import com.fajar.pokeapi.core.utils.VerticalSpaceItemDecoration
 import com.fajar.pokeapi.databinding.ActivityListBinding
 import com.fajar.pokeapi.ui.detail.DetailActivity
 

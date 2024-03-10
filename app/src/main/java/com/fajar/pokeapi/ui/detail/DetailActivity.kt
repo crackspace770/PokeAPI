@@ -18,6 +18,7 @@ import com.fajar.core.ui.StatsAdapter
 import com.fajar.core.ui.TypeAdapter
 import com.fajar.core.utils.Constant
 import com.fajar.core.utils.HorizontalSpaceItemDecoration
+import com.fajar.core.utils.PokemonTypeUtils
 import com.fajar.core.utils.Utils.loadImageUrl
 import com.fajar.pokeapi.R
 import com.fajar.pokeapi.databinding.ActivityDetailBinding
@@ -122,29 +123,7 @@ class DetailActivity : AppCompatActivity() {
                 statsList?.let { statAdapter.differ.submitList(it) }
 
                 typesList?.firstOrNull()?.type?.name?.let { typeName ->
-                    val colorResId = when (typeName) {
-                        "normal" -> R.color.normal_color
-                        "fire" -> R.color.fire_color
-                        "water" -> R.color.water_color
-                        "electric" -> R.color.electric_color
-                        "grass" -> R.color.grass_color
-                        "ice" -> R.color.ice_color
-                        "fighting" -> R.color.fighting_color
-                        "poison" -> R.color.poison_color
-                        "ground" -> R.color.ground_color
-                        "flying" -> R.color.flying_color
-                        "psychic" -> R.color.psychic_color
-                        "bug" -> R.color.bug_color
-                        "rock" -> R.color.rock_color
-                        "ghost" -> R.color.ghost_color
-                        "dragon" -> R.color.dragon_color
-                        "dark" -> R.color.dark_color
-                        "steel" -> R.color.steel_color
-                        "fairy" -> R.color.fairy_color
-                        "stellar" -> R.color.stellar_color
-                        // Add more cases for other types
-                        else -> R.color.default_color
-                    }
+                    val colorResId = PokemonTypeUtils.getTypeColor(typeName)
 
                     window.statusBarColor = ContextCompat.getColor(root.context, colorResId)
                     backgroundColor.setBackgroundResource(colorResId)

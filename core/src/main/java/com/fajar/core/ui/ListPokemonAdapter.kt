@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import coil.compose.AsyncImage
-import com.bumptech.glide.Glide
 import com.fajar.core.R
 import com.fajar.core.databinding.PokemonsItemsBinding
 import com.fajar.core.domain.model.Pokemon

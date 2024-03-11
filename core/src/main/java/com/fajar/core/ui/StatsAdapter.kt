@@ -3,6 +3,27 @@ package com.fajar.core.ui
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fajar.core.R
 import com.fajar.core.data.remote.response.StatsItem
 import com.fajar.core.databinding.StatItemBinding
+import com.fajar.core.utils.PokemonTypeUtils
 
 class StatsAdapter : RecyclerView.Adapter<StatsAdapter.StatsViewHolder>() {
 
@@ -17,32 +39,20 @@ class StatsAdapter : RecyclerView.Adapter<StatsAdapter.StatsViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind (stat: StatsItem) {
-            binding.apply {
-                tvNameStat.text = stat.stat.name
-                tvBaseStat.text = stat.baseStat.toString()
 
-                tvBaseStat.text = "${stat.baseStat} / 200" // Update text to show current and max value
+            val colorRes = PokemonTypeUtils.getStateColor(stat.stat.name)
+            val color = ContextCompat.getColor(itemView.context, colorRes)
 
-                // Calculate percentage of current stat value relative to maximum value
-                val percentage = stat.baseStat.toFloat() / 200f
-                val progress = (percentage * 100).toInt() // Calculate progress value (0-100)
-
-                // Set progress bar color based on stat name
-                val colorResId = when (stat.stat.name) {
-                    "hp" -> R.color.hp_color
-                    "attack" -> R.color.attack_color
-                    "defense" -> R.color.defense_color
-                    "special-attack" -> R.color.special_attack_color
-                    "special-defense" -> R.color.special_defense_color
-                    "speed" -> R.color.speed_color
-                    else -> R.color.default_color
+            binding.composeView.setContent {
+                MaterialTheme {
+                    StatsItem(
+                        statBase = stat.baseStat,
+                        statsName = stat.stat.name,
+                        backgroundColor = color
+                    )
                 }
-                statBar.progressDrawable.setTint(ContextCompat.getColor(itemView.context, colorResId))
-
-                // Set progress bar progress
-                statBar.progress = progress
-
             }
+
         }
     }
 
@@ -79,5 +89,45 @@ class StatsAdapter : RecyclerView.Adapter<StatsAdapter.StatsViewHolder>() {
 
     companion object {
         private const val MAX_BAR_WIDTH = 300 // Maximum width of the stat bar
+    }
+}
+
+@Composable
+fun StatsItem(
+    statBase: Int,
+    statsName: String,
+    backgroundColor: Int,
+    modifier: Modifier = Modifier
+) {
+    val percentage = statBase / 200f
+
+    Column(
+        modifier = modifier.padding(8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = statsName,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            )
+            Text(
+                text = "$statBase / 200",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            )
+        }
+        LinearProgressIndicator(
+            progress = percentage,
+            modifier = Modifier.fillMaxWidth(),
+            color = Color(backgroundColor)
+        )
     }
 }

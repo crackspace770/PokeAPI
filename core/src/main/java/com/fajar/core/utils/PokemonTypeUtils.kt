@@ -28,4 +28,16 @@ object PokemonTypeUtils {
             else -> R.color.default_color
         }
     }
+
+    fun getStateColor(type:String):Int{
+        return when (type) {
+            "hp" -> R.color.hp_color
+            "attack" -> R.color.attack_color
+            "defense" -> R.color.defense_color
+            "special-attack" -> R.color.special_attack_color
+            "special-defense" -> R.color.special_defense_color
+            "speed" -> R.color.speed_color
+            else -> R.color.default_color
+        }
+    }
 }

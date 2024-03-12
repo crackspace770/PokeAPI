@@ -12,12 +12,12 @@ apply from: '../shared_dependencies.gradle'
 
 android {
     namespace = "com.fajar.pokeapi"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.fajar.pokeapi"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
         multiDexEnabled true

@@ -9,7 +9,7 @@ apply from: '../shared_dependencies.gradle'
 
 android {
     namespace = "com.fajar.core"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 24

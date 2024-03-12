@@ -6,13 +6,16 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -91,6 +94,8 @@ fun StatsItem(
 ) {
     val percentage = statBase / 200f
 
+
+
     Column(
         modifier = modifier.padding(8.dp)
     ) {
@@ -105,18 +110,22 @@ fun StatsItem(
                     .padding(end = 8.dp),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Black
+
             )
             Text(
                 text = "$statBase / 200",
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black
+                fontWeight = FontWeight.Light,
+
             )
         }
         LinearProgressIndicator(
             progress = percentage,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(20.dp))
+                .height(15.dp),
+
             color = Color(backgroundColor)
         )
     }

@@ -40,7 +40,7 @@ class PokemonRepository @Inject constructor(
 
     override fun getAllPokemon(): Flow<Resource<List<Pokemon>>> {
         return object :
-            com.fajar.core.data.NetworkBoundResource<List<Pokemon>, ListPokemonResponse>(){
+           NetworkBoundResource<List<Pokemon>, ListPokemonResponse>(){
 
             override fun loadFromDB(): Flow<List<Pokemon>> {
                 return localDataSource.getAllPokemon().map {
@@ -80,7 +80,7 @@ class PokemonRepository @Inject constructor(
     //fragment search
     override fun getSearchPokemon(name: String): Flow<Resource<List<Pokemon>>> {
         return object :
-            com.fajar.core.data.NetworkOnlyResource<List<Pokemon>, ListPokemonResponse>() {
+            NetworkOnlyResource<List<Pokemon>, ListPokemonResponse>() {
 
             override suspend fun createCall(): Flow<ApiResponse<ListPokemonResponse>> {
                 return remoteDataSource.searchPokemon(name)

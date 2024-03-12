@@ -15,11 +15,8 @@ interface ApiService{
     suspend fun getPokemonList(): ListPokemonResponse
 
     @GET("pokemon")
-    suspend fun getsPokemonList(): ListPokemonsResponse
-
-    @GET("pokemon")
     suspend fun getSearch(
-        @Query("pokemon") name: String
+        @Query("name") name: String
     ): ListPokemonResponse
 
     @GET("pokemon/{name}")

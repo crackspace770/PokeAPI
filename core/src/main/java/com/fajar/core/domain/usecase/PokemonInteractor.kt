@@ -1,6 +1,5 @@
 package com.fajar.core.domain.usecase
 
-import androidx.lifecycle.LiveData
 import com.fajar.core.domain.model.Pokemon
 import com.fajar.core.domain.repository.IPokemonRepository
 

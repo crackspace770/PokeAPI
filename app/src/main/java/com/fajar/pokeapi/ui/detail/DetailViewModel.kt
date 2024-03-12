@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.fajar.core.data.Resource
 import com.fajar.core.domain.model.Pokemon
 import com.fajar.core.domain.usecase.PokemonUseCase
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +28,12 @@ class DetailViewModel @Inject constructor(private val pokemonUseCase: PokemonUse
         selectedPokemon.switchMap { pokemon ->
             pokemonUseCase.getDetailPokemon(pokemon).asLiveData()
         }
+
+    fun setFavoritePokemon(item:Pokemon, newState:Boolean) {
+        viewModelScope.launch {
+            pokemonUseCase.setFavoritePokemon(item,newState)
+        }
+    }
 
 
 }

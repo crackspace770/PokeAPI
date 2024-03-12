@@ -73,6 +73,13 @@ class ListPokemonAdapter : RecyclerView.Adapter<ListPokemonAdapter.ListViewHolde
         val data = listData[position]
         holder.bind(data)
     }
+
+    fun clearList(){
+        val size = listData.size
+        listData.clear()
+        notifyItemRangeRemoved(0, size)
+    }
+
 }
 
 @SuppressLint("SuspiciousIndentation")

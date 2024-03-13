@@ -1,5 +1,7 @@
 ## PokeApi App
 
+[![crackspace770](https://circleci.com/pipelines/gh/crackspace770/PokeAPI.svg?style=shield)](https://circleci.com/pipelines/gh/crackspace770/PokeAPI)
+
 This is a Pokedex app using MVVM architecture
 
 <img src="https://github.com/crackspace770/PokeAPI/blob/master/ss/Pokedex%20screenshot.png"/>
